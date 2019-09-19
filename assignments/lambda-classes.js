@@ -120,6 +120,13 @@ class Student {
     }
 }
 
+STRETCH
+ Extend the functionality of the Student by adding a prop called grade and setting it equal to a number between 1-100.
+* Now that our students have a grade build out a method on the Instructor (this will be used by _BOTH_ instructors and PM's) that will randomly 
+  add or subtract points to a student's grade. _Math.random_ will help.
+* Add a graduate method to a student.
+  * This method, when called, will check the grade of the student and see if they're ready to graduate from Lambda School
+  * If the student's grade is above a 70% let them graduate! Otherwise go back to grading their assignments to increase their score.
 */
 
 
@@ -148,6 +155,11 @@ class Person {
     speak() {
         return `Hello my name is ${this.name}, I am from ${this.location}.`;
     }
+    // randomly add or subtract points to a student's grade. _Math.random_ will help.
+    gradeChangeOfFate(studentObj, max) {
+        studentObj.grade = `${Math.floor((Math.random() * max) + 1)}`;
+        return `${studentObj.name}'s new grade is ${studentObj.grade}`;
+    }
 }
 // *****************************************************************    CLASS INSTRUCTOR    ********************************************************************
 class Instructor extends Person{
@@ -173,6 +185,7 @@ class Student extends Person{
         this.previousBackground = studentAttr.previousBackground;
         this.className = studentAttr.className;
         this.favSubjects = studentAttr.favSubjects;
+        this.grade = studentAttr.grade;
     }
     //* `listsSubjects` a method that logs out all of the student's favoriteSubjects one by one.
     listSubjects() {
@@ -185,6 +198,15 @@ class Student extends Person{
     //* `sprintChallenge` similar to PRAssignment but logs out `student.name has begun sprint challenge on {subject}`
     sprintChallenge(subject) {
         return `${this.name} has begun sprint challenge on ${subject}`;
+    }
+    //* This method, when called, will check the grade of the student and see if they're ready to graduate from Lambda School
+    //* If the student's grade is above a 70% let them graduate! Otherwise go back to grading their assignments to increase their score.
+    graduate() {
+        if (this.grade > 70) {
+            return `This student may graduate because students new grade is ${this.grade} which is above 70 percent.`
+        } else {
+            return `This student should keep working on some assignments and change their grade and then they can graduate! Because students new grade is ${this.grade} and is below 70 percent`;
+        }
     }
 }
 
@@ -233,7 +255,8 @@ class ProjectManager extends Instructor{
     age: 44,
     previousBackground: 'Janitor',
     className: 'class of 97',
-    favSubjects: ['math', 'science', 'computers']
+    favSubjects: ['math', 'science', 'computers'],
+    grade: 80
   });
   const satan = new Student({
     name: 'Satan',
@@ -241,7 +264,8 @@ class ProjectManager extends Instructor{
     age: 1989864829281273,
     previousBackground: 'Fallen Angel',
     className: 'never graduated from Heaven',
-    favSubjects: ['torture', 'sinning', 'imposter syndrome']
+    favSubjects: ['torture', 'sinning', 'imposter syndrome'],
+    grade: 0
   });
 
 // INSTRUCTOR OBJECTS
@@ -292,11 +316,14 @@ class ProjectManager extends Instructor{
     console.log(`This should list Satan's fav subjects: ${satan.listSubjects()}`);
     console.log(`list PR Assignment for Sam: ${sam.PRAssignment('Hanging out')}`);
     console.log(`Satans sprint challenge: ${satan.sprintChallenge('messing with people')}`);
+    console.log(`randomly change grade before checking to see if they can graduate: ${ian.gradeChangeOfFate(satan, 100)}`);
+    console.log(`checks if satans grade is permissable for graduation: ${satan.graduate()}`);
 
 // INSTRUCTOR TESTS ALL NAMES START WITH I
     console.log(`check inheritance via speak() for instructor iliad: ${iliad.speak()}`);
     console.log(`check demo for instructor issac: ${issac.demo("math")}`);
     console.log(`check grade for instructor ian: ${ian.grade(satan, 'being a BAD BAD Boy')}`);
+    console.log(`check grade changer method: ${ian.gradeChangeOfFate(satan, 100)}`);
 
 // PROJECT MANAGERS TEST ALL NAMES START WITH M
     console.log(`check speak() for inheritance to Person class for matthew: ${matthew.speak()}`);
